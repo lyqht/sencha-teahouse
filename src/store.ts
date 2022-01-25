@@ -1,13 +1,7 @@
+import { CMS_BASE_URL } from "@env";
 import request, { gql } from "graphql-request";
 import create from "zustand";
-import { CMS_BASE_URL } from "@env";
-
-export interface Product {
-    id: string,
-    name: string,
-    price: number,
-    quantity: number,
-}
+import { Product } from "./types/product";
 
 interface ProductState {
     products: Product[],
@@ -15,8 +9,12 @@ interface ProductState {
     fetchProducts: () => void,
 }
 
+type TeaFromCMS = Omit<Product, "coverImage"> & {
+    coverImage: {url: string}
+}
+
 interface CMSResponse {
-    teas: Product[]
+    teas: TeaFromCMS[]
 }
 
 export const useStore = create<ProductState>(set => ({
@@ -37,6 +35,6 @@ query MyQuery {
 }
                 `;
         const { teas: fetchedProducts }: CMSResponse = await request(`${CMS_BASE_URL}`, query);
-        set({ products: fetchedProducts });
+        set({ products: fetchedProducts.map(product => ({...product, coverImage: product.coverImage.url})) });
     },
 }));
