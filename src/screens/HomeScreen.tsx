@@ -1,15 +1,22 @@
-import { AddIcon, Box, FlatList, HStack, IconButton, Image, Input, MinusIcon, Spacer, Text, VStack } from "native-base";
+import { AddIcon, FlatList, HStack, IconButton, Image, Input, MinusIcon, Spacer, Text, VStack } from "native-base";
 import React from "react";
 import { SafeAreaView, StyleSheet, ViewStyle } from "react-native";
-import { useStore } from "../store";
+import { useProductStore } from "../stores/product";
+import { UserState, useUserStore } from "../stores/user";
 import { Product } from "../types/product";
 
 const HomeScreen: React.FC = () => {
-    const products = useStore(state => state.products);
+    const products = useProductStore(state => state.products);
+    const { cart, addToCart, removeFromCart } = useUserStore() as unknown as UserState;
+    // const [itemsInCart, setItemsInCart] = useState(cart);
+
 
     const _renderItem = ({ item }: { item: Product }) => {
-        const { coverImage, name, price, quantity } = item;
-        const maxQuantity = quantity;
+        const { coverImage, name, price, quantity, id } = item;
+        const displayValue = cart[id] != null ? cart[id] : 0;
+
+        //TODO:  reduce re-rendering, only make the row affected re-render
+        console.log({cart});
 
         return (
             <HStack>
@@ -22,15 +29,16 @@ const HomeScreen: React.FC = () => {
                 </VStack>
                 <HStack position={"absolute"} right={0} bottom={0} mx={6} h={8}>
                     <Spacer />
-                    <IconButton size={"md"} variant="solid" icon={<MinusIcon size="4" />}/>
-                    <Input mx="3" textAlign={"center"} w={12} placeholder="0" keyboardType="number-pad" />
-                    <IconButton size={"md"} variant="solid" icon={<AddIcon size="4" />} />
+                    <IconButton size={"md"} variant="solid" icon={<MinusIcon size="4" />} disabled={displayValue === 0} onPress={() => {removeFromCart(item);}}/>
+                    <Input mx="3" textAlign={"center"} w={12} keyboardType="number-pad" defaultValue="0" value={`${displayValue}`} />
+                    <IconButton size={"md"} variant="solid" icon={<AddIcon size="4" />} disabled={displayValue === quantity} onPress={() => { addToCart(item); }} />
                 </HStack>
             </HStack>
         );
     };
     return (
         <SafeAreaView style={styles.container}>
+            <Text>In cart: { Object.keys(cart).length !== 0 ? Object.values(cart).reduce((a, b) => a + b) : 0 }</Text>
             <FlatList w={"full"} keyExtractor={(item, index) => `${item}+${index}`} data={products} renderItem={_renderItem} />
         </SafeAreaView>
     );
