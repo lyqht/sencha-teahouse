@@ -1,7 +1,7 @@
-import {CMS_BASE_URL} from "@env";
-import request, {gql} from "graphql-request";
+import { CMS_BASE_URL } from "@env";
+import request, { gql } from "graphql-request";
 import create from "zustand";
-import {Product} from "./types/product";
+import { Product } from "../types/product";
 
 interface ProductState {
     products: Product[];
@@ -17,7 +17,7 @@ interface CMSResponse {
     teas: TeaFromCMS[];
 }
 
-export const useStore = create<ProductState>(set => ({
+export const useProductStore = create<ProductState>(set => ({
     products: [],
     addProduct: (newProduct: Product) =>
         set(state => ({products: [...state.products, newProduct]})),
