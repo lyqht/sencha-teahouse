@@ -1,11 +1,13 @@
+import { Text } from "native-base";
 import React from "react";
-import { View } from "react-native";
+import { SafeAreaView } from "react-native";
 
-const SummaryScreen: React.FC = () => {
+
+const SummaryScreen: React.FC = ({}) => {
     return (
-        <View>
-            WIP
-        </View>
+        <SafeAreaView>
+            <Text>SummaryScreen Screen in WIP</Text>
+        </SafeAreaView>
     );
 };
 
