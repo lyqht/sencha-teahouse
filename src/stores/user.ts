@@ -10,6 +10,7 @@ export interface UserState {
     cart: Cart;
     addToCart: (product: Product) => void;
     addToCartInQty: (product: Product, qty: number) => void;
+    removeOneFromCart: (product: Product) => void;
     removeFromCart: (product: Product) => void;
     clearCart: () => void;
 }
@@ -31,7 +32,7 @@ export const useUserStore = create((zustandFlipper as ZustandFlipper)(set => ({
             const newState = { cart: { ...state.cart, [targetProductId]: quantity } };
             return newState;
         }, false, "addToCartInQty"),
-    removeFromCart: (newProduct: Product) => {
+    removeOneFromCart: (newProduct: Product) => {
         set((state: UserState) => {
             const newState = {cart: {...state.cart}};
             const targetProductId = newProduct.id;
@@ -41,6 +42,14 @@ export const useUserStore = create((zustandFlipper as ZustandFlipper)(set => ({
             } else {
                 newState.cart[targetProductId] -= 1;
             }
+            return newState;
+        }, false, "removeOneFromCart");
+    },
+    removeFromCart: (newProduct: Product) => {
+        set((state: UserState) => {
+            const newState = {cart: {...state.cart}};
+            const targetProductId = newProduct.id;
+            delete newState.cart[targetProductId];
             return newState;
         }, false, "removeFromCart");
     },
