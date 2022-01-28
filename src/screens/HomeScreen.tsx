@@ -1,23 +1,21 @@
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import {
     Badge,
     Box,
-    Divider,
-    FlatList,
-    HStack,
-    Icon,
+    Button,
+    Divider, Icon,
     IconButton,
     Text,
     VStack,
 } from "native-base";
 import React from "react";
-import {SafeAreaView} from "react-native";
-import {SvgUri} from "react-native-svg";
+import { FlatList, SafeAreaView } from "react-native";
+import { SvgUri } from "react-native-svg";
 import ProductListItem from "../components/ProductListItem";
-import {RootStackParamList} from "../routes";
-import {useProductStore} from "../stores/product";
-import {useUserStore} from "../stores/user";
-import {Product} from "../types/product";
+import { RootStackParamList } from "../routes";
+import { useProductStore } from "../stores/product";
+import { useUserStore } from "../stores/user";
+import { Product } from "../types/product";
 
 const CartDisplay = () => {
     const navigator = useNavigation<RootStackParamList>();
@@ -71,26 +69,31 @@ const CartDisplay = () => {
 
 const HomeScreen: React.FC = () => {
     const products = useProductStore(state => state.products);
+    const listRef = React.useRef<FlatList>(null);
     const _renderItem = ({item}: {item: Product}) => {
         const productListItemProps = {item};
         return <ProductListItem {...productListItemProps} />;
+    };
+    const scrollToTop = () => {
+        listRef.current?.scrollToOffset({ animated: true, offset: 0 });
     };
     return (
         <SafeAreaView>
             <VStack h="full">
                 <FlatList
-                    w={"full"}
+                    ref={listRef}
                     keyExtractor={item => `${item.id}`}
                     data={products}
                     renderItem={_renderItem}
                     ListFooterComponent={
-                        <HStack>
-                            <Divider orientation="horizontal" />
-                            <Text py={4} mx={"auto"} fontSize={"xl"}>
-                            That's all of our menu!
+                        <VStack py={4} mx={"auto"}>
+                            <Text fontSize={"xl"}>
+                                That's all of our menu~
                             </Text>
-                            <Divider orientation="horizontal" />
-                        </HStack>
+                            <Button variant={"outline"} onPress={() => {scrollToTop();}}>
+                                Scroll back to top
+                            </Button>
+                        </VStack>
                     }
                 />
                 <CartDisplay />
