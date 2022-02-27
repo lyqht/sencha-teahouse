@@ -8,6 +8,7 @@ interface Cart {
 
 export interface UserState {
     cart: Cart;
+    setCart: (cart: Cart) => void;
     addToCart: (product: Product) => void;
     addToCartInQty: (product: Product, qty: number) => void;
     removeOneFromCart: (product: Product) => void;
@@ -19,6 +20,9 @@ type ZustandFlipper = (config: StateCreator<UserState>) => StateCreator<UserStat
 
 export const useUserStore = create((zustandFlipper as ZustandFlipper)(set => ({
     cart: {},
+    setCart: (cart) => {
+        set(() => ({cart}), false, "setCart");
+    },
     addToCart: (newProduct: Product) =>
         set((state: UserState) => {
             const targetProductId = newProduct.id;
