@@ -2,8 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import {
     Badge,
     Box,
-    Button,
-    Divider, Icon,
+    Button, Icon,
     IconButton,
     Text,
     VStack,
@@ -12,13 +11,13 @@ import React from "react";
 import { FlatList, SafeAreaView } from "react-native";
 import { SvgUri } from "react-native-svg";
 import ProductListItem from "../components/ProductListItem";
-import { RootStackParamList } from "../routes";
+import { NavigationProps } from "../routes";
 import { useProductStore } from "../stores/product";
 import { useUserStore } from "../stores/user";
 import { Product } from "../types/product";
 
 const CartDisplay = () => {
-    const navigator = useNavigation<RootStackParamList>();
+    const navigator = useNavigation<NavigationProps>();
     const {cart} = useUserStore();
     const qtyInCart =
         Object.keys(cart).length !== 0
