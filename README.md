@@ -1,3 +1,7 @@
+<div align='center'>
+  <img width='200' src='./logo.png' />
+</div>
+
 # Sencha Teahouse
 
 This project is created with the template as such
