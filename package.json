@@ -26,7 +26,8 @@
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^3.10.1",
     "react-native-svg": "^12.1.0",
-    "zustand": "^3.6.9"
+    "zustand": "^3.6.9",
+    "expo": "^45.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

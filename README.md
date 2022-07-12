@@ -14,9 +14,7 @@ This app intends to be a shopping app for buying tea and sweets from Sencha Teah
 It explores the use of: 
 - GraphCMS
 - Zustand for state management
-- Adding Expo-Cli to a bare RN project
-  - the code with expo modules are in the branch `/add-expo`
-  - basically this is so that I can upload a snack every iteration for sharing with others.
+- Converting a bare RN project to an Expo project
 - Async Storage for locally stored items (TODO)
 - Supertokens for Auth (TODO, pending RN SDK to be up)
 - Some animation library (TODO)
