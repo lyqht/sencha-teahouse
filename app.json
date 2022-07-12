@@ -1,4 +1,6 @@
 {
-  "name": "SenchaTea",
-  "displayName": "SenchaTea"
+  "expo": {
+    "name": "SenchaTea",
+    "slug": "sencha-teahouse"
+  }
 }
