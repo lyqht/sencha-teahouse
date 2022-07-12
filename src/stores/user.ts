@@ -27,14 +27,12 @@ export const useUserStore = create((zustandFlipper as ZustandFlipper)(set => ({
         set((state: UserState) => {
             const targetProductId = newProduct.id;
             const newValue = state.cart[targetProductId] != null ? state.cart[targetProductId] + 1 : 1;
-            const newState = { cart: { ...state.cart, [targetProductId]: newValue } };
-            return newState;
+            return { cart: { ...state.cart, [targetProductId]: newValue } };
         }, false, "addToCart"),
     addToCartInQty: (newProduct: Product, quantity: number) =>
         set((state: UserState) => {
             const targetProductId = newProduct.id;
-            const newState = { cart: { ...state.cart, [targetProductId]: quantity } };
-            return newState;
+            return { cart: { ...state.cart, [targetProductId]: quantity } };
         }, false, "addToCartInQty"),
     removeOneFromCart: (newProduct: Product) => {
         set((state: UserState) => {
