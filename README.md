@@ -17,11 +17,10 @@ It explores the use of:
 - Adding Expo-Cli to a bare RN project
   - the code with expo modules are in the branch `/add-expo`
   - basically this is so that I can upload a snack every iteration for sharing with others.
-- Async Storage for locally stored items (TODO)
-- Supertokens for Auth (TODO, pending RN SDK to be up)
-- Some animation library (TODO)
+- Async Storage for locally stored items
 
-This app is created for some of my [exercise submissions for Centauri React Cohort](https://github.com/lyqht/centauri-react-native).
+This app has been showcased during a talk on [Debugging Mobile Applications with Flipper](https://poly.work/lyqht/highlights/qHf_CvAe) on Flipper plugins such as React DevTools, Network & Async Storage to debug states.
+
 ## Snacks
 
 - [v01](https://snack.expo.dev/@lyqht/sencha-teahouse-v01)
@@ -30,3 +29,7 @@ This app is created for some of my [exercise submissions for Centauri React Coho
   -  Added checkout button with badge that shows number of items in cart
   -  Added checkout page to show total price & all items in cart
   -  Added listfootercomponent to show end of list
+
+## Future todos
+- Add Stripe SDK
+- Some animation library (TODO)
