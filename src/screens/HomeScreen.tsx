@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { FlashList } from "@shopify/flash-list";
 import {
     Badge,
     Box,
@@ -8,7 +9,7 @@ import {
     VStack,
 } from "native-base";
 import React from "react";
-import { FlatList, SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native";
 import { SvgUri } from "react-native-svg";
 import ProductListItem from "../components/ProductListItem";
 import { NavigationProps } from "../routes";
@@ -68,7 +69,7 @@ const CartDisplay = () => {
 
 const HomeScreen: React.FC = () => {
     const products = useProductStore(state => state.products);
-    const listRef = React.useRef<FlatList>(null);
+    const listRef = React.useRef<FlashList<Product>>(null);
     const _renderItem = ({item}: {item: Product}) => {
         const productListItemProps = {item};
         return <ProductListItem {...productListItemProps} />;
@@ -79,7 +80,7 @@ const HomeScreen: React.FC = () => {
     return (
         <SafeAreaView>
             <VStack h="full">
-                <FlatList
+                <FlashList
                     ref={listRef}
                     keyExtractor={item => `${item.id}`}
                     data={products}

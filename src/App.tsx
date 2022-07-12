@@ -9,9 +9,11 @@ import { RootStackParamList } from "./routes";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import HomeScreen from "./screens/HomeScreen";
 import SummaryScreen from "./screens/SummaryScreen";
-import { useProductStore } from "./stores/product";
+import { CMSResponse, useProductStore } from "./stores/product";
 import { useUserStore } from "./stores/user";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import request, { gql } from "graphql-request";
+import { CMS_BASE_URL } from "@env";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -26,21 +28,49 @@ const NavStack = () => (
 );
 
 const App: React.FC = () => {
-    const fetchProducts = useProductStore(state => state.fetchProducts);
-    fetchProducts();
-
+    const setProducts = useProductStore(state => state.setProducts);
     const appState = useRef(AppState.currentState);
     const { setItem, getItem } = useAsyncStorage("cart");
     let { setCart, cart } = useUserStore();
 
+    const getAndSetProducts = async () => {
+        const {teas: fetchedProducts}: CMSResponse = await request(
+            `${CMS_BASE_URL}`,
+            gql`
+                query MyQuery {
+                    teas {
+                        id
+                        name
+                        price
+                        quantity
+                        coverImage {
+                            url
+                        }
+                    }
+                }
+            `
+            ,
+        );
+
+        setProducts(fetchedProducts.map(product => ({
+            ...product,
+            coverImage: product.coverImage.url,
+        })),
+        );
+
+    };
+
 
     useEffect(() => {
-        (async () => {
+        const init = async () => {
+            await getAndSetProducts();
             const retrievedCart = await getItem();
             if (retrievedCart !== null) {
                 setCart(JSON.parse(retrievedCart));
             }
-        })();
+        };
+
+        init();
     }, []);
 
     useEffect(() => {

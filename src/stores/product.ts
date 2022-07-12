@@ -1,49 +1,27 @@
-import { CMS_BASE_URL } from "@env";
-import request, { gql } from "graphql-request";
-import create from "zustand";
+import zustandFlipper from "react-native-flipper-zustand";
+import create, { StateCreator } from "zustand";
 import { Product } from "../types/product";
 
 interface ProductState {
     products: Product[];
+    setProducts: (products: Product[]) => void;
     addProduct: (product: Product) => void;
-    fetchProducts: () => void;
 }
 
-type TeaFromCMS = Omit<Product, "coverImage"> & {
+export type TeaFromCMS = Omit<Product, "coverImage"> & {
     coverImage: {url: string};
 };
 
-interface CMSResponse {
+export interface CMSResponse {
     teas: TeaFromCMS[];
 }
 
-export const useProductStore = create<ProductState>(set => ({
+type ZustandFlipper = (config: StateCreator<ProductState>) => StateCreator<ProductState>;
+
+export const useProductStore = create((zustandFlipper as ZustandFlipper)(set => ({
     products: [],
     addProduct: (newProduct: Product) =>
-        set(state => ({products: [...state.products, newProduct]})),
-    fetchProducts: async () => {
-        const query = gql`
-            query MyQuery {
-                teas {
-                    id
-                    name
-                    price
-                    quantity
-                    coverImage {
-                        url
-                    }
-                }
-            }
-        `;
-        const {teas: fetchedProducts}: CMSResponse = await request(
-            `${CMS_BASE_URL}`,
-            query,
-        );
-        set({
-            products: fetchedProducts.map(product => ({
-                ...product,
-                coverImage: product.coverImage.url,
-            })),
-        });
-    },
-}));
+        set(state => ({products: [...state.products, newProduct]}), false, "addProduct"),
+    setProducts: (products: Product[]) =>
+        set(() => ({products}), false, "setProducts"),
+})));
