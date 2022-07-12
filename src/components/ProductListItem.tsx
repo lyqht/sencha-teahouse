@@ -1,5 +1,6 @@
-import { AddIcon, HStack, IconButton, Image, Input, MinusIcon, Spacer, Text, VStack } from "native-base";
+import { AddIcon, HStack, IconButton, Input, MinusIcon, Spacer, Text, VStack } from "native-base";
 import React, { useCallback } from "react";
+import FastImage from "react-native-fast-image";
 import { useUserStore } from "../stores/user";
 import { Product } from "../types/product";
 
@@ -15,7 +16,7 @@ const ProductListItem: React.FC<Props> = ({ item }) => {
 
     return (
         <HStack>
-            <Image size={"120"} source={{uri: coverImage}} alt={name} />
+            <FastImage style={{width: 120, height: 120}} source={{uri: coverImage}} accessibilityLabel={name} />
             <VStack paddingX={4} paddingTop={4}>
                 <Text fontSize={"md"}>{name}</Text>
                 <Text fontSize={"xl"}>${price}</Text>

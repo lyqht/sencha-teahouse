@@ -1,5 +1,6 @@
-import { AddIcon, Box, CloseIcon, Divider, HStack, IconButton, Image, Input, MinusIcon, Spacer, Text, VStack } from "native-base";
+import { AddIcon, Box, CloseIcon, Divider, HStack, IconButton, Input, MinusIcon, Spacer, Text, VStack } from "native-base";
 import React, { useCallback } from "react";
+import FastImage from "react-native-fast-image";
 import { useUserStore } from "../stores/user";
 import { Product } from "../types/product";
 
@@ -18,7 +19,7 @@ const CheckoutListItem: React.FC<Props> = ({ item }) => {
     return (
         <Box>
             <HStack>
-                <Image w={"40%"} source={{uri: coverImage}} alt={name} />
+                <FastImage style={{width: "40%"}} source={{uri: coverImage}} accessibilityLabel={name} />
                 <VStack w={"60%"} paddingX={4} py={4} mb={6}>
                     <IconButton position={"absolute"} right={0} p={5} icon={<CloseIcon size={4} />} onPress={() => {removeFromCart(item);}} />
 
