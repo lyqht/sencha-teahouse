@@ -1,6 +1,12 @@
 {
   "expo": {
     "name": "SenchaTea",
-    "slug": "sencha-teahouse"
+    "slug": "sencha-teahouse",
+    "ios": {
+      "bundleIdentifier": "org.reactjs.native.example.SenchaTea"
+    },
+    "plugins": [
+      "expo-community-flipper"
+    ]
   }
 }
